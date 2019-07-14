@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: eureka-service
+
+server:
+  port: 5000
+
+
+eureka:
+  instance:
+    hostname: localhost    # 主机名，会在控制页面中显示
+    prefer-ip-address: true  #以IP地址注册到服务中心，相互注册使用IP地址
+    #设置为true，是将本服务的Ip注册到Eureka，而不是域名，一般建议使用ip，因为在使用容器部署时，容器本身不具有DNS记录，服务就没办法正确解析地址。基于云的微服务本身是短暂和无状态的，所以使用ip地址更适合。
+  server:
+    # 关闭自我保护
+    enable-self-preservation: false
+    # 清理服务器
+    eviction-interval-timer-in-ms: 5000
+  client:  #registerWithEureka：false和fetchRegistry：false来表明自己是一个eureka server.
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
